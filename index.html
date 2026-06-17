@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>AllSouth Appliance · AI Visibility Report · Southeast Markets</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --brand:#6C3AED;--brand-dark:#5B21B6;--brand-soft:#EDE9FE;
+  --ink:#0f172a;--muted:#475569;--soft:#94a3b8;
+  --line:#e2e8f0;--wash:#f8fafc;--paper:#fff;
+  --green:#10b981;--green-soft:#d1fae5;
+  --amber:#f59e0b;--amber-soft:#fef3c7;
+  --red:#ef4444;--red-soft:#fee2e2;
+  --radius:14px;--pill:999px;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --shadow-lg:0 10px 25px rgba(0,0,0,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;color:var(--ink);background:var(--wash);line-height:1.65;font-size:15px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{margin:0;line-height:1.2;letter-spacing:-.02em}
+h1{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800}
+h2{font-size:clamp(1.3rem,2.5vw,1.8rem);font-weight:700}
+h3{font-size:1.1rem;font-weight:700}
+p{color:var(--muted);margin:0 0 .8em}
+a{color:var(--brand);text-decoration:none}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+
+/* Header */
+.header{background:linear-gradient(135deg,#1e1b4b 0%,#4c1d95 40%,#6d28d9 100%);color:#fff;padding:56px 0 48px;position:relative;overflow:hidden}
+.header::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(139,92,246,.3),transparent 60%),radial-gradient(ellipse at 20% 80%,rgba(236,72,153,.15),transparent 60%);pointer-events:none}
+.header::before{content:"";position:absolute;inset:0;opacity:.04;mix-blend-mode:overlay;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.header-inner{position:relative;z-index:1}
+.header .eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:12px}
+.header h1{color:#fff;margin-bottom:8px}
+.header .sub{color:rgba(255,255,255,.75);font-size:1rem;max-width:640px}
+
+/* Score cards */
+.score-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:-28px;position:relative;z-index:10}
+.score-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:18px 14px;box-shadow:var(--shadow-lg);text-align:center;transition:transform .2s ease}
+
+/* Visual score chart */
+.score-chart{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg,18px);padding:32px 36px;box-shadow:var(--shadow-lg);margin-top:-28px;position:relative;z-index:10}
+.score-chart-title{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:24px}
+.score-row{display:flex;align-items:center;gap:16px;margin-bottom:14px}
+.score-row:last-child{margin-bottom:0}
+.score-location{flex:0 0 130px;font-size:14px;font-weight:700;color:var(--ink);text-align:right}
+.score-bar-track{flex:1;height:38px;background:var(--wash);border-radius:10px;overflow:hidden;border:1px solid var(--line);position:relative}
+.score-bar-fill{height:100%;border-radius:9px;display:flex;align-items:center;padding:0 14px;font-size:15px;font-weight:800;color:#fff;transition:width .8s cubic-bezier(.22,1,.36,1);position:relative;overflow:hidden}
+.score-bar-fill::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.15) 0%,transparent 60%);pointer-events:none}
+.score-bar-fill.strong{background:linear-gradient(90deg,#059669,#10b981)}
+.score-bar-fill.moderate{background:linear-gradient(90deg,#d97706,#f59e0b)}
+.score-bar-fill.emerging{background:linear-gradient(90deg,#dc2626,#ef4444)}
+.score-value{flex:0 0 55px;font-size:18px;font-weight:900;color:var(--ink);text-align:right;font-variant-numeric:tabular-nums}
+.score-badge-inline{display:inline-block;font-size:9px;font-weight:700;padding:2px 8px;border-radius:var(--pill);text-transform:uppercase;letter-spacing:.04em;margin-left:8px;vertical-align:middle}
+.sb-strong{background:var(--green-soft);color:#059669}
+.sb-moderate{background:var(--amber-soft);color:#b45309}
+.sb-emerging{background:var(--red-soft);color:#dc2626}
+.score-card:hover{transform:translateY(-3px)}
+.score-card .location{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--brand);margin-bottom:8px}
+.score-card .score{font-size:2.4rem;font-weight:900;color:var(--ink);line-height:1}
+.score-card .score span{font-size:1.2rem;color:var(--soft);font-weight:600}
+.score-card .badge{display:inline-block;margin-top:8px;font-size:11px;font-weight:700;padding:4px 12px;border-radius:var(--pill);text-transform:uppercase;letter-spacing:.04em}
+.badge-strong{background:var(--green-soft);color:#059669}
+.score-card .detail{font-size:13px;color:var(--muted);margin-top:8px}
+
+section{padding:48px 0}
+.section-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--brand);margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.section-label::before{content:"";width:24px;height:3px;background:var(--brand);border-radius:2px;flex-shrink:0}
+
+/* Tables */
+table{width:100%;border-collapse:collapse;margin-top:12px;font-size:14px}
+th{text-align:left;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--brand);padding:10px 14px;border-bottom:2px solid var(--brand-soft);background:var(--wash)}
+td{padding:10px 14px;border-bottom:1px solid var(--line);color:var(--ink)}
+tr:last-child td{border-bottom:none}
+tbody tr:nth-child(even){background:var(--wash)}
+.td-score{font-weight:700;font-variant-numeric:tabular-nums}
+.high{color:var(--green)}
+.mid{color:var(--amber)}
+.low{color:var(--red)}
+
+/* Platform grid */
+.platform-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
+.plat-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);transition:transform .2s ease,box-shadow .2s ease}
+.plat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.plat-card h4{font-size:.95rem;margin-bottom:14px;color:var(--ink);padding-bottom:10px;border-bottom:2px solid var(--brand-soft)}
+.plat-card table{margin-top:4px}
+.plat-card table th{padding:6px 10px;font-size:10px;background:transparent;border-bottom:1px solid var(--line)}
+.plat-card table td{padding:8px 10px;font-size:13px}
+.plat-card table td:first-child{color:var(--brand);font-weight:800;width:20px}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.bar-label{flex:0 0 110px;font-size:12px;font-weight:600;color:var(--muted);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-track{flex:1;height:22px;background:var(--wash);border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+.bar-fill{height:100%;border-radius:5px;transition:width .6s ease;display:flex;align-items:center;justify-content:flex-end;padding-right:6px;font-size:10px;font-weight:700;color:#fff;min-width:fit-content}
+.bar-fill.high-bar{background:linear-gradient(90deg,#10b981,#34d399)}
+.bar-fill.mid-bar{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
+.bar-fill.low-bar{background:linear-gradient(90deg,#ef4444,#f87171)}
+.bar-fill.zero-bar{background:#e2e8f0;color:var(--soft);min-width:30px}
+
+/* Category comparison */
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
+.cat-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);transition:transform .2s ease,box-shadow .2s ease}
+.cat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.cat-card h4{font-size:.85rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:12px}
+.cat-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.cat-row:last-child{border-bottom:none}
+.cat-row .cat-name{font-size:13px;font-weight:600;color:var(--ink)}
+.cat-row .cat-pct{font-size:14px;font-weight:800;font-variant-numeric:tabular-nums}
+
+/* Competitor section */
+.comp-table-wrap{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);overflow-x:auto;box-shadow:var(--shadow);margin-top:16px}
+
+/* Recommendations */
+.rec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:20px}
+.rec-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);position:relative;border-left:4px solid var(--brand);transition:transform .2s ease,box-shadow .2s ease}
+.rec-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.rec-card.critical{border-left-color:var(--red)}
+.rec-card.warning{border-left-color:var(--amber)}
+.rec-card.opportunity{border-left-color:var(--green)}
+.rec-card .rec-priority{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.rec-card .rec-priority.p-critical{color:var(--red)}
+.rec-card .rec-priority.p-warning{color:var(--amber)}
+.rec-card .rec-priority.p-opportunity{color:var(--green)}
+.rec-card h3{font-size:1rem;margin-bottom:6px}
+.rec-card p{font-size:13px;margin:0}
+
+/* Citations */
+.cite-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:16px}
+.cite-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);transition:transform .15s ease}
+.cite-card:hover{transform:translateY(-2px)}
+.cite-card .cite-rank{font-size:11px;font-weight:800;color:var(--brand);margin-bottom:4px}
+.cite-card .cite-domain{font-size:14px;font-weight:700;color:var(--ink)}
+.cite-card .cite-count{font-size:12px;color:var(--muted)}
+
+/* Shared report links */
+.link-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+.link-card{display:block;background:var(--brand);color:#fff;text-align:center;padding:14px 16px;border-radius:var(--radius);font-size:13px;font-weight:700;transition:all .2s ease;box-shadow:0 4px 12px rgba(108,58,237,.3)}
+.link-card:hover{background:var(--brand-dark);text-decoration:none;transform:translateY(-2px);box-shadow:0 8px 20px rgba(108,58,237,.4)}
+
+/* Footer */
+.footer{text-align:center;padding:40px 24px;color:var(--soft);font-size:12px;border-top:1px solid var(--line);margin-top:24px}
+.footer p{color:var(--soft)}
+
+/* Responsive */
+@media(max-width:1000px){
+  .score-strip{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:768px){
+  .score-strip,.platform-grid,.cat-grid,.cite-grid,.link-strip{grid-template-columns:1fr}
+  .rec-grid{grid-template-columns:1fr}
+}
+
+/* Pricing section */
+.pricing-section{background:linear-gradient(135deg,#1e1b4b,#4c1d95);color:#fff;border-top:none;border-bottom:none}
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:24px}
+.price-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:var(--radius);padding:28px;backdrop-filter:blur(6px);transition:transform .2s ease}
+.price-card:hover{transform:translateY(-3px)}
+.price-card.featured{border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.12);box-shadow:0 20px 40px rgba(0,0,0,.3)}
+.price-card .price-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:8px}
+.price-card .price-name{font-size:1.2rem;font-weight:800;color:#fff;margin-bottom:4px}
+.price-card .price-amount{font-size:2.4rem;font-weight:900;color:#fff;margin:8px 0 4px}
+.price-card .price-amount small{font-size:.9rem;font-weight:600;color:rgba(255,255,255,.6)}
+.price-card .price-note{font-size:13px;color:rgba(255,255,255,.5);margin-bottom:14px}
+.price-card ul{list-style:none;padding:0;margin:0}
+.price-card ul li{padding:8px 0 8px 22px;position:relative;font-size:14px;color:rgba(255,255,255,.85);border-bottom:1px solid rgba(255,255,255,.08)}
+.price-card ul li:last-child{border-bottom:none}
+.price-card ul li::before{content:"✓";position:absolute;left:0;color:#10b981;font-weight:700}
+.price-badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:var(--pill);background:rgba(16,185,129,.2);color:#34d399;margin-bottom:12px}
+.support-note{margin-top:20px;padding:18px;background:rgba(255,255,255,.06);border:1px dashed rgba(255,255,255,.2);border-radius:12px;font-size:13px;color:rgba(255,255,255,.7);line-height:1.7}
+.support-note strong{color:#fff}
+@media(max-width:768px){.pricing-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="wrap header-inner">
+    <div class="eyebrow">AI Visibility Report · June 2026</div>
+    <h1>AllSouth Appliance</h1>
+    <p class="sub">We sent 570 prompts across up to 8 AI platforms in seven Southeast markets to see how often AllSouth Appliance gets recommended. The AI Visibility Score represents the percentage of time AI engines mention your brand when customers ask relevant questions. Here is what we found.</p>
+  </div>
+</div>
+
+<!-- SCORE CHART -->
+<div class="wrap">
+  <div class="score-chart">
+    <div class="score-chart-title">AI Visibility Score by Market</div>
+    <div class="score-row">
+      <div class="score-location">Birmingham</div>
+      <div class="score-bar-track"><div class="score-bar-fill strong" style="width:56%"></div></div>
+      <div class="score-value">56%<span class="score-badge-inline sb-strong">Strong</span></div>
+    </div>
+    <div class="score-row">
+      <div class="score-location">Huntsville</div>
+      <div class="score-bar-track"><div class="score-bar-fill strong" style="width:50%"></div></div>
+      <div class="score-value">50%<span class="score-badge-inline sb-strong">Strong</span></div>
+    </div>
+    <div class="score-row">
+      <div class="score-location">Montgomery</div>
+      <div class="score-bar-track"><div class="score-bar-fill strong" style="width:50%"></div></div>
+      <div class="score-value">50%<span class="score-badge-inline sb-strong">Strong</span></div>
+    </div>
+    <div class="score-row">
+      <div class="score-location">Chattanooga</div>
+      <div class="score-bar-track"><div class="score-bar-fill moderate" style="width:38%"></div></div>
+      <div class="score-value">38%<span class="score-badge-inline sb-moderate">Moderate</span></div>
+    </div>
+    <div class="score-row">
+      <div class="score-location">Ft. Walton Beach</div>
+      <div class="score-bar-track"><div class="score-bar-fill moderate" style="width:37%"></div></div>
+      <div class="score-value">37%<span class="score-badge-inline sb-moderate">Moderate</span></div>
+    </div>
+    <div class="score-row">
+      <div class="score-location">Panama City</div>
+      <div class="score-bar-track"><div class="score-bar-fill emerging" style="width:23%"></div></div>
+      <div class="score-value">23%<span class="score-badge-inline sb-emerging">Emerging</span></div>
+    </div>
+    <div class="score-row">
+      <div class="score-location">Nashville</div>
+      <div class="score-bar-track"><div class="score-bar-fill emerging" style="width:12%"></div></div>
+      <div class="score-value">12%<span class="score-badge-inline sb-emerging">Emerging</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- CATEGORY BREAKDOWN -->
+<section style="background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="section-label">Category Performance</div>
+    <h2>Visibility by product category</h2>
+    <p>How AllSouth performs across its three main product/service categories in each market.</p>
+
+    <div class="cat-grid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr))">
+      <div class="cat-card">
+        <h4>Birmingham</h4>
+        <div class="cat-row"><span class="cat-name">Appliance Provider</span><span class="cat-pct high">70%</span></div>
+        <div class="cat-row"><span class="cat-name">Appliance Retailer</span><span class="cat-pct mid">63%</span></div>
+        <div class="cat-row"><span class="cat-name">Grill Retailer</span><span class="cat-pct low">35%</span></div>
+      </div>
+      <div class="cat-card">
+        <h4>Huntsville</h4>
+        <div class="cat-row"><span class="cat-name">Appliance Retailer</span><span class="cat-pct mid">60%</span></div>
+        <div class="cat-row"><span class="cat-name">Appliance Provider</span><span class="cat-pct mid">51%</span></div>
+        <div class="cat-row"><span class="cat-name">Grill Retailer</span><span class="cat-pct low">40%</span></div>
+      </div>
+      <div class="cat-card">
+        <h4>Montgomery</h4>
+        <div class="cat-row"><span class="cat-name">Appliance Retailer</span><span class="cat-pct mid">66%</span></div>
+        <div class="cat-row"><span class="cat-name">Appliance Provider</span><span class="cat-pct mid">60%</span></div>
+        <div class="cat-row"><span class="cat-name">Grill Retailer</span><span class="cat-pct low">26%</span></div>
+      </div>
+      <div class="cat-card">
+        <h4>Ft. Walton Beach</h4>
+        <div class="cat-row"><span class="cat-name">Appliance Retailer</span><span class="cat-pct mid">55%</span></div>
+        <div class="cat-row"><span class="cat-name">Appliance Provider</span><span class="cat-pct mid">45%</span></div>
+        <div class="cat-row"><span class="cat-name">Grill Retailer</span><span class="cat-pct low">10%</span></div>
+      </div>
+      <div class="cat-card">
+        <h4>Panama City</h4>
+        <div class="cat-row"><span class="cat-name">Appliance Provider</span><span class="cat-pct mid">40%</span></div>
+        <div class="cat-row"><span class="cat-name">Appliance Retailer</span><span class="cat-pct low">25%</span></div>
+        <div class="cat-row"><span class="cat-name">Grill Retailer</span><span class="cat-pct low">5%</span></div>
+      </div>
+      <div class="cat-card">
+        <h4>Chattanooga</h4>
+        <div class="cat-row"><span class="cat-name">Appliance Provider</span><span class="cat-pct mid">60%</span></div>
+        <div class="cat-row"><span class="cat-name">Appliance Retailer</span><span class="cat-pct mid">55%</span></div>
+        <div class="cat-row"><span class="cat-name">Grill Retailer</span><span class="cat-pct low">0%</span></div>
+      </div>
+      <div class="cat-card">
+        <h4>Nashville</h4>
+        <div class="cat-row"><span class="cat-name">Appliance Retailer</span><span class="cat-pct low">25%</span></div>
+        <div class="cat-row"><span class="cat-name">Appliance Provider</span><span class="cat-pct low">10%</span></div>
+        <div class="cat-row"><span class="cat-name">Grill Retailer</span><span class="cat-pct low">0%</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CROSS-MARKET COMPARISON TABLE -->
+<section>
+  <div class="wrap">
+    <div class="section-label">Cross-Market Comparison</div>
+    <h2>Side-by-side platform performance</h2>
+    <p>A consolidated view of every platform across all five markets. Green indicates strong visibility (60%+), amber is moderate (30-59%), and red flags gaps below 30%.</p>
+
+    <div class="comp-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Platform</th>
+            <th>Birmingham</th>
+            <th>Huntsville</th>
+            <th>Montgomery</th>
+            <th>Ft. Walton</th>
+            <th>Panama City</th>
+            <th>Chattanooga</th>
+            <th>Nashville</th>
+            <th>Average</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Gemini</td><td class="td-score high">93%</td><td class="td-score high">80%</td><td class="td-score high">73%</td><td class="td-score low">0%</td><td class="td-score low">0%</td><td class="td-score low">0%</td><td class="td-score low">0%</td><td class="td-score mid">35%</td></tr>
+          <tr><td>Grok</td><td class="td-score high">87%</td><td class="td-score high">73%</td><td class="td-score high">87%</td><td class="td-score low">0%</td><td class="td-score low">0%</td><td class="td-score low">0%</td><td class="td-score low">0%</td><td class="td-score mid">35%</td></tr>
+          <tr><td>Claude Search</td><td class="td-score high">67%</td><td class="td-score high">73%</td><td class="td-score high">73%</td><td class="td-score low">0%</td><td class="td-score low">0%</td><td class="td-score low">0%</td><td class="td-score low">0%</td><td class="td-score mid">30%</td></tr>
+          <tr><td>ChatGPT 5</td><td class="td-score high">60%</td><td class="td-score high">60%</td><td class="td-score high">67%</td><td class="td-score mid">53%</td><td class="td-score mid">53%</td><td class="td-score high">60%</td><td class="td-score low">20%</td><td class="td-score mid">53%</td></tr>
+          <tr><td>Perplexity</td><td class="td-score high">60%</td><td class="td-score mid">33%</td><td class="td-score mid">53%</td><td class="td-score mid">47%</td><td class="td-score mid">33%</td><td class="td-score mid">47%</td><td class="td-score low">7%</td><td class="td-score mid">40%</td></tr>
+          <tr><td>AI Mode (Google)</td><td class="td-score mid">40%</td><td class="td-score mid">33%</td><td class="td-score low">0%</td><td class="td-score mid">47%</td><td class="td-score low">7%</td><td class="td-score mid">47%</td><td class="td-score low">20%</td><td class="td-score low">28%</td></tr>
+          <tr><td>ChatGPT 5.5</td><td class="td-score mid">40%</td><td class="td-score low">0%</td><td class="td-score low">0%</td><td class="td-score low">0%</td><td class="td-score low">0%</td><td class="td-score low">0%</td><td class="td-score low">0%</td><td class="td-score low">6%</td></tr>
+          <tr><td>Claude</td><td class="td-score low">0%</td><td class="td-score low">0%</td><td class="td-score low">0%</td><td class="td-score low">0%</td><td class="td-score low">0%</td><td class="td-score low">0%</td><td class="td-score low">0%</td><td class="td-score low">0%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- COMPETITORS -->
+<section style="background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="section-label">Competitive Landscape</div>
+    <h2>Top competitors by market</h2>
+    <p>The brands AI platforms mention most frequently alongside AllSouth Appliance in each market.</p>
+
+    <div class="platform-grid" style="grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px">
+      <div class="plat-card">
+        <h4>Birmingham</h4>
+        <table>
+          <thead><tr><th>#</th><th>Competitor</th><th>Mentions</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Alabama Appliance</td><td class="td-score">52</td></tr>
+            <tr><td>2</td><td>ABSCO Fireplace</td><td class="td-score">25</td></tr>
+            <tr><td>3</td><td>Home Depot</td><td class="td-score">24</td></tr>
+            <tr><td>4</td><td>Mazer Appliance</td><td class="td-score">21</td></tr>
+            <tr><td>5</td><td>Best Buy</td><td class="td-score">20</td></tr>
+            <tr><td>6</td><td>Lowe's</td><td class="td-score">20</td></tr>
+            <tr><td>7</td><td>Hollywood Outdoor</td><td class="td-score">17</td></tr>
+            <tr><td>8</td><td>Ferguson</td><td class="td-score">15</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="plat-card">
+        <h4>Huntsville</h4>
+        <table>
+          <thead><tr><th>#</th><th>Competitor</th><th>Mentions</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Sweet Home Appliance</td><td class="td-score">44</td></tr>
+            <tr><td>2</td><td>Bob Wallace Appliance</td><td class="td-score">38</td></tr>
+            <tr><td>3</td><td>Wolf</td><td class="td-score">32</td></tr>
+            <tr><td>4</td><td>Sub-Zero</td><td class="td-score">30</td></tr>
+            <tr><td>5</td><td>Big Green Egg</td><td class="td-score">26</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="plat-card">
+        <h4>Montgomery</h4>
+        <table>
+          <thead><tr><th>#</th><th>Competitor</th><th>Mentions</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Cohen's</td><td class="td-score">24</td></tr>
+            <tr><td>2</td><td>Lowe's</td><td class="td-score">23</td></tr>
+            <tr><td>3</td><td>Best Buy</td><td class="td-score">23</td></tr>
+            <tr><td>4</td><td>Home Depot</td><td class="td-score">22</td></tr>
+            <tr><td>5</td><td>AL Appliance Outlet</td><td class="td-score">21</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="plat-card">
+        <h4>Ft. Walton Beach</h4>
+        <table>
+          <thead><tr><th>#</th><th>Competitor</th><th>Mentions</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Lowe's</td><td class="td-score">32</td></tr>
+            <tr><td>2</td><td>Home Depot</td><td class="td-score">27</td></tr>
+            <tr><td>3</td><td>Wolf</td><td class="td-score">13</td></tr>
+            <tr><td>4</td><td>Big Green Egg</td><td class="td-score">12</td></tr>
+            <tr><td>5</td><td>Art's Appliance</td><td class="td-score">9</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="plat-card">
+        <h4>Panama City</h4>
+        <table>
+          <thead><tr><th>#</th><th>Competitor</th><th>Mentions</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Lowe's</td><td class="td-score">31</td></tr>
+            <tr><td>2</td><td>Home Depot</td><td class="td-score">25</td></tr>
+            <tr><td>3</td><td>Appliance Center</td><td class="td-score">17</td></tr>
+            <tr><td>4</td><td>Best Buy</td><td class="td-score">14</td></tr>
+            <tr><td>5</td><td>Seaside Appliance</td><td class="td-score">10</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="plat-card">
+        <h4>Chattanooga</h4>
+        <table>
+          <thead><tr><th>#</th><th>Competitor</th><th>Mentions</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Lowe's</td><td class="td-score">14</td></tr>
+            <tr><td>2</td><td>Home Depot</td><td class="td-score">14</td></tr>
+            <tr><td>3</td><td>Wolf</td><td class="td-score">13</td></tr>
+            <tr><td>4</td><td>Best Buy</td><td class="td-score">13</td></tr>
+            <tr><td>5</td><td>Big Green Egg</td><td class="td-score">13</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="plat-card">
+        <h4>Nashville</h4>
+        <table>
+          <thead><tr><th>#</th><th>Competitor</th><th>Mentions</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>A-1 Appliance</td><td class="td-score">17</td></tr>
+            <tr><td>2</td><td>Home Depot</td><td class="td-score">16</td></tr>
+            <tr><td>3</td><td>Best Buy</td><td class="td-score">14</td></tr>
+            <tr><td>4</td><td>Thermador</td><td class="td-score">13</td></tr>
+            <tr><td>5</td><td>Lowe's</td><td class="td-score">13</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOP CITATIONS -->
+<section>
+  <div class="wrap">
+    <div class="section-label">Citations and Sources</div>
+    <h2>Where AI engines pull information from</h2>
+    <p>The domains AI platforms cite most frequently when answering AllSouth-related queries (Montgomery data). These are the sources that drive whether AllSouth gets recommended or not.</p>
+
+    <div class="cite-grid">
+      <div class="cite-card"><div class="cite-rank">#1</div><div class="cite-domain">yelp.com</div><div class="cite-count">146 citations</div></div>
+      <div class="cite-card"><div class="cite-rank">#2</div><div class="cite-domain">facebook.com</div><div class="cite-count">87 citations</div></div>
+      <div class="cite-card"><div class="cite-rank">#3</div><div class="cite-domain">thinkcohens.com</div><div class="cite-count">69 citations</div></div>
+      <div class="cite-card"><div class="cite-rank">#4</div><div class="cite-domain">google.com</div><div class="cite-count">69 citations</div></div>
+      <div class="cite-card"><div class="cite-rank">#5</div><div class="cite-domain">lowes.com</div><div class="cite-count">66 citations</div></div>
+      <div class="cite-card" style="border:1px solid var(--brand);background:var(--brand-soft)"><div class="cite-rank">#6 · YOUR SITE</div><div class="cite-domain">myallsouth.com</div><div class="cite-count">50 citations</div></div>
+      <div class="cite-card"><div class="cite-rank">#7</div><div class="cite-domain">youtube.com</div><div class="cite-count">41 citations</div></div>
+      <div class="cite-card"><div class="cite-rank">#8</div><div class="cite-domain">instagram.com</div><div class="cite-count">38 citations</div></div>
+      <div class="cite-card"><div class="cite-rank">#9</div><div class="cite-domain">alabamaapplianceoutlet.com</div><div class="cite-count">35 citations</div></div>
+      <div class="cite-card"><div class="cite-rank">#10</div><div class="cite-domain">homedepot.com</div><div class="cite-count">34 citations</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- RECOMMENDATIONS -->
+<section style="background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="section-label">What Needs to Improve</div>
+    <h2>Recommendations to increase AI visibility</h2>
+    <p>Based on the data across all three markets, these are the highest-impact areas to address.</p>
+
+    <div class="rec-grid">
+      <div class="rec-card critical">
+        <div class="rec-priority p-critical">Critical · All Markets</div>
+        <h3>Claude visibility is zero across all seven locations</h3>
+        <p>AllSouth does not appear in any Claude responses in any market. Claude is one of the fastest-growing AI assistants. The fix: structured content with clear entity markup, FAQ schema, and answer-shaped formatting that Claude's retrieval system can parse and cite.</p>
+      </div>
+
+      <div class="rec-card critical">
+        <div class="rec-priority p-critical">Critical · Expansion Markets</div>
+        <h3>Nashville scores 12%, Panama City 23%, and Fort Walton Beach 37%</h3>
+        <p>Nashville, Panama City, and Fort Walton Beach significantly trail the core Alabama markets. Nashville appears in AI results just 12% of the time, with zero visibility in the grill retailer category across all platforms. These newer markets need dedicated local content, citation builds, and Google Business Profile optimization. These locations need dedicated local content, citation builds, and Google Business Profile optimization urgently.</p>
+      </div>
+
+      <div class="rec-card critical">
+        <div class="rec-priority p-critical">Critical · Multiple Markets</div>
+        <h3>Google AI Mode returns near-zero results in two markets</h3>
+        <p>AI Mode (Google's AI-powered search) shows AllSouth in 0% of Montgomery prompts, only 7% in Panama City, and 20% in Nashville. This is Google's next-generation search experience. The fix: strengthen local SEO signals, Google Business Profile completeness, and structured data for these locations specifically.</p>
+      </div>
+
+      <div class="rec-card warning">
+        <div class="rec-priority p-warning">High Priority · All Markets</div>
+        <h3>Grill Retailer category is the weakest across every market</h3>
+        <p>Birmingham 35%, Huntsville 40%, Montgomery 26%, Fort Walton Beach 10%, Panama City 5%, and Chattanooga and Nashville both at 0%. AI engines do not associate AllSouth strongly with grills and outdoor cooking. The fix: dedicated grill content pages, outdoor living category pages, brand-specific grill pages (Traeger, Big Green Egg, Kamado Joe, etc.), and citation listings in outdoor/grill directories.</p>
+      </div>
+
+      <div class="rec-card warning">
+        <div class="rec-priority p-warning">High Priority · Expansion Markets</div>
+        <h3>National chains dominate AllSouth outside Alabama</h3>
+        <p>In Fort Walton Beach, Panama City, Chattanooga, and Nashville, national chains like Lowe's, Home Depot, and Best Buy consistently out-mention AllSouth. The independent competitor landscape is thinner here, meaning there is an opportunity to become the go-to local alternative if visibility improves. Local content, reviews, and community-focused citations would differentiate AllSouth from the big box stores.</p>
+      </div>
+
+      <div class="rec-card warning">
+        <div class="rec-priority p-warning">High Priority · All Markets</div>
+        <h3>Competitor Cohen's is out-citing AllSouth in Montgomery</h3>
+        <p>thinkcohens.com has 69 citations versus myallsouth.com's 50 in the Montgomery market. When AI engines see a competitor cited more frequently, they tend to recommend that competitor more often. The fix: increase AllSouth's citation footprint through directory submissions, press mentions, and content syndication.</p>
+      </div>
+
+      <div class="rec-card opportunity">
+        <div class="rec-priority p-opportunity">Opportunity · Core Markets</div>
+        <h3>Gemini and Grok are strong foundations to build on</h3>
+        <p>Gemini averages 82% and Grok averages 82% across the Alabama markets. These are AllSouth's strongest platforms. The opportunity: study what makes AllSouth visible on these platforms (likely strong review profiles and structured business data) and replicate those signals for the weaker platforms and Florida locations.</p>
+      </div>
+
+      <div class="rec-card opportunity">
+        <div class="rec-priority p-opportunity">Opportunity · Birmingham</div>
+        <h3>Birmingham is the strongest market at 56%, use it as the model</h3>
+        <p>Whatever content, citations, and local SEO work is driving Birmingham's visibility should be replicated for all other locations. Birmingham's visibility is nearly five times Nashville's.</p>
+      </div>
+
+      <div class="rec-card opportunity">
+        <div class="rec-priority p-opportunity">Opportunity · All Markets</div>
+        <h3>Over half of all prompts are missed entirely</h3>
+        <p>Across all seven markets, the majority of the time a customer asks AI a relevant question, AllSouth is not mentioned at all. Each missed prompt is a potential customer asking for help and not hearing AllSouth's name. The fix: expand content to cover more query types, especially long-tail questions about delivery, installation, financing, and brand-specific appliance comparisons.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FULL REPORTS -->
+<section>
+  <div class="wrap">
+    <div class="section-label">Full Reports</div>
+    <h2>View the detailed data for each market</h2>
+    <p>Click through to the full RankPrompt dashboard for each location to see individual prompt responses, competitor details, and citation sources.</p>
+
+    <div class="link-strip" style="grid-template-columns:repeat(auto-fill,minmax(140px,1fr))">
+      <a class="link-card" href="https://app.rankprompt.com/shared/U5VXmw9qJE2ssELsLDv7Y6bVzuRNRW_g97Ejv7SA6Hw" target="_blank">Birmingham</a>
+      <a class="link-card" href="https://app.rankprompt.com/shared/Rr46PvJwEIL-uBILV35gxltAkLojSO8kX-ABviWkbVQ" target="_blank">Huntsville</a>
+      <a class="link-card" href="https://app.rankprompt.com/shared/YztOwn6bAHGmmO8Nxohtc79mK-KI3qvTqvYv9m0jA3g" target="_blank">Montgomery</a>
+      <a class="link-card" href="https://app.rankprompt.com/shared/4-kglR7MmV8c1dWwM1UrdEDZwIKNazZ496OLUIKMinQ" target="_blank">Ft. Walton Beach</a>
+      <a class="link-card" href="https://app.rankprompt.com/shared/1gBCWB4edffgjFUVs8Cub6Bg4uhz4FKSUb7hWnZItOg" target="_blank">Panama City</a>
+      <a class="link-card" href="https://app.rankprompt.com/shared/JrDF3X-ovyHRb_8ZLuXqXW_tsIptCypIw4u2IshgIZI" target="_blank">Chattanooga</a>
+      <a class="link-card" href="https://app.rankprompt.com/shared/1b19mFJdhiKH3CohEZBtbOzu06GUAcrbxbxez429uAo" target="_blank">Nashville</a>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING & AI ASSISTANT -->
+<section class="pricing-section" style="padding:64px 0">
+  <div class="wrap">
+    <div class="section-label" style="color:rgba(255,255,255,.5)">Investment</div>
+    <h2 style="color:#fff">RankPrompt + AI Assistant for AllSouth</h2>
+    <p style="color:rgba(255,255,255,.65);max-width:680px">Two services designed to work together: RankPrompt handles AI search visibility across all seven locations, and a custom AI chatbot transforms the customer experience on myallsouth.com.</p>
+
+    <div class="pricing-grid">
+      <div class="price-card featured">
+        <div class="price-badge">Recommended</div>
+        <div class="price-label">AI Visibility</div>
+        <div class="price-name">RankPrompt Managed Service</div>
+        <div class="price-amount">$3,500<small> / month</small></div>
+        <div class="price-note">Covers all seven locations ($500/location)</div>
+        <ul>
+          <li>AI visibility monitoring across up to 8 platforms per location</li>
+          <li>Prompt discovery and winnability scoring per location</li>
+          <li>Content creation tuned for LLM indexing</li>
+          <li>Citation outreach and directory management</li>
+          <li>Schema markup and answer-shaped formatting</li>
+          <li>Monthly reporting and strategy with George</li>
+          <li>Google Business Profile optimization per market</li>
+          <li>Ongoing prompt-set re-testing and gap analysis</li>
+        </ul>
+      </div>
+      <div class="price-card">
+        <div class="price-label">Customer Experience</div>
+        <div class="price-name">AI Chatbot for myallsouth.com</div>
+        <div class="price-amount">$2,500<small> one-time</small></div>
+        <div class="price-note">Complex AI assistant, custom-built</div>
+        <ul>
+          <li>Custom AI chatbot trained on AllSouth's inventory and services</li>
+          <li>Handles product questions, availability, brand comparisons</li>
+          <li>Guides customers to the right appliance for their needs</li>
+          <li>Lead capture and appointment booking integration</li>
+          <li>Multi-location aware (routes to nearest showroom)</li>
+          <li>Branded to match AllSouth's look and feel</li>
+          <li>Reduces support load and increases on-site conversion</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="support-note">
+      <strong>Support included at no extra cost</strong> for as long as AllSouth remains a RankPrompt client. The chatbot is built once and supported continuously as part of the partnership. If AllSouth ever decides to stop the AI visibility plan, an optional <strong>$550/month maintenance fee</strong> keeps the chatbot updated, monitored, and running. No lock-in, no pressure.
+    </div>
+  </div>
+</section>
+
+<div class="footer">
+  <p>AllSouth Appliance · AI Visibility Report · June 2026</p>
+  <p>Prepared by George Shamblin, VP of Growth · RankPrompt</p>
+</div>
+
+</body>
+</html>
